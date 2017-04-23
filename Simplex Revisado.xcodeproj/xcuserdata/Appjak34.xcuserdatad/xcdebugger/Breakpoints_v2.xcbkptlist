@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simplex Revisado/ViewController.swift"
-            timestampString = "514359630.504259"
+            timestampString = "514681906.235863"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "botonSiguiente(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simplex Revisado/Funciones.swift"
-            timestampString = "514359620.940855"
+            timestampString = "514681906.235863"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "NuevaBm1(B1:TP:Q:)"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "Z(CB:E:b:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

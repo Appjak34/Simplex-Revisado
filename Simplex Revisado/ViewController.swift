@@ -11,6 +11,14 @@ var LabelV = [NSTextField]()
 var LabelR = [NSTextField]()
 var Matriz = [[NSTextField]]()
 let NewLabel :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+var VC = [NSTextField]()
+var MAJ = [[NSTextField]]()
+var MI = [[NSTextField]]()
+var ME = [[NSTextField]]()
+var MBm1 = [[NSTextField]]()
+var contador = 0
+
+
 
 
 class ViewController: NSViewController {
@@ -66,23 +74,55 @@ class ViewController: NSViewController {
             B1 = 1
             }
         Matriz = LabelVR
+        var cont:Int = variables.integerValue
+        var cont2:Int = 1
+        MI = [[NSTextField]](repeating: [NSTextField](repeating: NewLabel, count:restricciones.integerValue ), count: restricciones.integerValue)
+
+        for A in 0..<Matriz[1].count-variables.integerValue-1 {
+            for B in 0..<Matriz.count-1{
+                MI[A][B] = Matriz[cont2][cont]
+                cont += 1
+            }
+            cont2 += 1
+            cont = variables.integerValue
+        }
         buttonOK.isHidden = true
         siguiente.isHidden = false
+
     }
     
     @IBAction func botonSiguiente(_ sender: Any) {
+        if contador == 0 {
+            VC = C()
+            VC = C2()
+            MBm1 = B1(M:Matriz,vari:variables.integerValue,res: restricciones.integerValue)
+            MAJ = Aj(M: Matriz, vari: variables.integerValue, res: restricciones.integerValue)
+            
+
+        }
+        
         var P:Int = 0
         var Q:Int = 0
         var CB = Cb(M: Matriz, vari: variables.integerValue)
         var CJ = Cj(M: Matriz, res: restricciones.integerValue)
         var Bm1 = B1(M:Matriz,vari:variables.integerValue,res: restricciones.integerValue)
-        var AJ = Aj(M: Matriz, vari: variables.integerValue, res: restricciones.integerValue)
         var b = B(vari:variables.integerValue,res: restricciones.integerValue)
-        P = Zj_Cj(CB: CB, BM1: Bm1, CJ: CJ, Aj: AJ, res: restricciones.integerValue)
+        P = Zj_Cj(CB: CB, BM1: Bm1, CJ: VC, Aj: MAJ, res: restricciones.integerValue)
         var Xb = XB(B1: Bm1, b: b)
         var Tp = TP(B1: Bm1, P: P)
         Q = Minimo(XB: Xb, TP: Tp, P: P)
-        Bm1 = NuevaBm1(B1: Bm1, TP: Tp, Q: Q)
+        
+        if contador == 0 {
+            Bm1 = NuevaBm1(B1: MI, TP: Tp, Q: Q, P: P, vari:variables.integerValue)
+            contador = 1
+        }else{
+            Bm1 = NuevaBm1(B1: MI, TP: Tp, Q: Q, P: P, vari:variables.integerValue)
+            Bm1 = MEanterior(MAnterior: ME, MBm1: Bm1, vari: variables.integerValue, res: restricciones.integerValue)
+        }
+   
+        CB = NuebaCb(Cb:CB, P:P,Q:Q,M: Matriz)
+        ME = Bm1
+        print(Z(CB: CB, E: Bm1, b: b))  
         
         
     }

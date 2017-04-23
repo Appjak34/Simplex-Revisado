@@ -1,4 +1,4 @@
-//
+    //
 //  Funciones.swift
 //  Simplex Revisado
 //
@@ -82,17 +82,17 @@ func Zj_Cj(CB:[NSTextField], BM1:[[NSTextField]],CJ:[NSTextField],Aj:[[NSTextFie
         }
         Aux2.append(NewLabel2)
     }
-    
     Aux.removeAll()
     
     for A in 0..<Aux2.count {
         let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
         NewLabel2.doubleValue = 0
-        NewLabel.doubleValue = (Aux2[A].doubleValue + CJ[A].doubleValue)
-        Aux.append(NewLabel)
-    }
+        NewLabel2.doubleValue = (Aux2[A].doubleValue - CJ[A].doubleValue)
+        Aux.append(NewLabel2)
+        }
     
     let numbersLength = Aux.count
+    
     for i in 0 ..< numbersLength {
         for j in 1 ..< numbersLength-i {
             if Aux[j-1].doubleValue > Aux[j].doubleValue {
@@ -102,10 +102,11 @@ func Zj_Cj(CB:[NSTextField], BM1:[[NSTextField]],CJ:[NSTextField],Aj:[[NSTextFie
             }
         }
     }
+    
     let valor: Double = Aux[0].doubleValue
     var P:Int = 0
     for A in 0..<Matriz[0].count-res-1 {
-        if valor == Matriz[0][A].doubleValue {
+        if valor == (Aux2[A].doubleValue - CJ[A].doubleValue ) {
             P = A
             return P
         }
@@ -171,14 +172,13 @@ func Minimo(XB:[NSTextField], TP:[NSTextField],P:Int) -> Int {
 
 func TP(B1:[[NSTextField]],P:Int) -> [NSTextField] {
     var Tp = [NSTextField]()
-    for A in 1..<Matriz.count {
+    for A in 0..<B1.count {
         let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
         NewLabel2.doubleValue = 0
         for B in 0..<B1.count {
-            NewLabel2.doubleValue = (Matriz[A][P].doubleValue * B1[A-1][B].doubleValue) + NewLabel2.doubleValue
+            NewLabel2.doubleValue = (Matriz[B+1][P].doubleValue * B1[A][B].doubleValue) + NewLabel2.doubleValue
         }
         Tp.append(NewLabel2)
-        print(Tp[A-1].doubleValue)
     }
     
     return Tp
@@ -186,10 +186,10 @@ func TP(B1:[[NSTextField]],P:Int) -> [NSTextField] {
     
 }
 
-func NuevaBm1(B1:[[NSTextField]],TP:[NSTextField],Q:Int) -> [[NSTextField]] {
+func NuevaBm1(B1:[[NSTextField]],TP: [NSTextField], Q: Int, P:Int,vari:Int) -> [[NSTextField]] {
     var NuevaB1: [[NSTextField]] = B1
     var AuxTP:[NSTextField] = TP
-    var Tj = 1/TP[Q-1].doubleValue
+    let Tj = 1/TP[Q-1].doubleValue
     
     for A in 0..<AuxTP.count {
         if A == Q-1 {
@@ -201,15 +201,21 @@ func NuevaBm1(B1:[[NSTextField]],TP:[NSTextField],Q:Int) -> [[NSTextField]] {
     
     for A in 0..<B1.count {
         NuevaB1[A][Q-1] = AuxTP[A]
+        Matriz[A+1][Q+1] = AuxTP[A]
     }
-    for a in 0..<NuevaB1.count {
-        for b in 0..<NuevaB1.count {
-            print(NuevaB1[a][b].doubleValue)
-        }
-    }
+    
+
     return NuevaB1
     
 }
+
+func NuebaCb(Cb:[NSTextField], P:Int, Q:Int, M:[[NSTextField]]) -> [NSTextField] {
+    var nuevaCb = Cb
+    nuevaCb[Q-1].doubleValue  = M[0][P].doubleValue
+    return nuevaCb
+}
+
+
 
 func Cb(M:[[NSTextField]],vari: Int) -> [NSTextField] {
     var Cb = [NSTextField]()
@@ -219,8 +225,38 @@ func Cb(M:[[NSTextField]],vari: Int) -> [NSTextField] {
     return Cb
 }
 
+func C() -> [NSTextField] {
+    var C = [NSTextField]()
+    for A in 0..<Matriz[0].count-1 {
+        C.append(Matriz[0][A])
+    }
+    
+    for A in 0..<Matriz[0].count-1 {
+        let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+        NewLabel2.doubleValue = 0
+        NewLabel2.doubleValue = Matriz[0][A].doubleValue
+        C.append(NewLabel2)
+    }
+    
+    return C
+}
+
+    func C2() -> [NSTextField] {
+        var C = [NSTextField]()
+        
+        for A in 0..<Matriz[0].count-1 {
+            let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+            NewLabel2.doubleValue = 0
+            NewLabel2.doubleValue = Matriz[0][A].doubleValue
+            C.append(NewLabel2)
+        }
+        
+        return C
+    }
+    
 func Cj(M:[[NSTextField]],res: Int) -> [NSTextField] {
     var Cb = [NSTextField]()
+
     for A in 0..<M[0].count-res-1 {
         Cb.append(M[0][A])
     }
@@ -236,7 +272,6 @@ func B1(M:[[NSTextField]],vari:Int,res: Int) -> [[NSTextField]] {
           B1[A][B] = M[cont2][cont]
             cont += 1
         }
-        print("\n")
         cont2 += 1
         cont = vari
     }
@@ -245,52 +280,66 @@ func B1(M:[[NSTextField]],vari:Int,res: Int) -> [[NSTextField]] {
 }
 
 func Aj(M:[[NSTextField]],vari:Int,res: Int) -> [[NSTextField]] {
-    var Aj = [[NSTextField]](repeating: [NSTextField](repeating: NewLabel, count:vari ), count: res)
+    var Aj = [[NSTextField]](repeating: [NSTextField](repeating: NewLabel, count:vari+res ), count: res)
     var cont:Int = 0
     var cont2:Int = 0
-    for A in 1..<M.count-1 {
-        for B in 0..<M[1].count-res-1{
+    for A in 1..<M.count {
+        for B in 0..<M[1].count-1{
             Aj[cont2][B] = M[A][B]
             cont += 1
         }
-        print("\n")
         cont2 += 1
         cont = 0
     }
     
     return Aj
 }
+    func MEanterior(MAnterior:[[NSTextField]], MBm1:[[NSTextField]],vari:Int,res: Int) -> [[NSTextField]] {
+        var MNnueva = [[NSTextField]](repeating: [NSTextField](repeating: NewLabel, count:res ), count: res)
+        
+        for C in 0..<MBm1.count{
+        
+        for A in 0..<MBm1.count {
+                let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+                NewLabel2.doubleValue = 0
+                for B in 0..<MBm1.count {
+                    NewLabel2.doubleValue = MBm1[C][B].doubleValue * MAnterior[B][A].doubleValue + NewLabel2.doubleValue
+                }
 
-
-func MenorEjeX(res:Int,CB:[Double],B1:[Double],Cj:[Double]) -> Int{
-    var AuxM = Matriz[0]
-    var auxmenor = 0
-    for i in 0 ..< AuxM.count-res-1 {
-        print(AuxM[i].doubleValue)
-    }
-    let numbersLength = Matriz[0].count-res-1
-    for i in 0 ..< numbersLength {
-        for j in 1 ..< numbersLength-i {
-            if AuxM[j-1].doubleValue > AuxM[j].doubleValue {
-                let swap = AuxM[j-1]
-                AuxM[j-1] = AuxM[j]
-                AuxM[j] = swap
+                MNnueva[C][A] = NewLabel2
             }
+            
         }
+        return MNnueva
+        
+        
     }
-    for i in 0 ..< AuxM.count-res-1 {
-        print(AuxM[i].doubleValue)
-    }
-    let menor:Double = AuxM[0].doubleValue
-    for i in 0 ..< numbersLength {
-        if menor == Matriz[0][i].doubleValue{
-            auxmenor = i
-            return auxmenor
+    
+    func Z(CB:[NSTextField], E:[[NSTextField]], b:[NSTextField]) -> Double {
+        var Z = 0.0
+        var aux = [NSTextField](repeating: NewLabel, count:CB.count )
+        for A in 0..<E.count {
+            let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+            NewLabel2.doubleValue = 0
+            for B in 0..<E.count {
+                NewLabel2.doubleValue = CB[B].doubleValue * E[B][A].doubleValue + NewLabel2.doubleValue
+                }
+            print( NewLabel2.doubleValue)
+
+            aux[A] = NewLabel2
         }
+        
+        let NewLabel3 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+        NewLabel3.doubleValue = 0
+        
+        for A in 0..<E.count {
+            NewLabel3.doubleValue = aux[A].doubleValue * b[A].doubleValue + NewLabel3.doubleValue
+        }
+        
+        Z = NewLabel3.doubleValue
+        
+        return Z
     }
-    return auxmenor
-}
+  
 
-func MenorEjeY(ejeX:Int, res:Int){
 
-}
