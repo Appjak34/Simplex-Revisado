@@ -103,13 +103,24 @@ class ViewController: NSViewController {
         
         var P:Int = 0
         var Q:Int = 0
+        var Xb = [NSTextField]()
+        var Tp = [NSTextField]()
         var CB = Cb(M: Matriz, vari: variables.integerValue)
         var CJ = Cj(M: Matriz, res: restricciones.integerValue)
         var Bm1 = B1(M:Matriz,vari:variables.integerValue,res: restricciones.integerValue)
         var b = B(vari:variables.integerValue,res: restricciones.integerValue)
+        
+        if contador == 0 {
         P = Zj_Cj(CB: CB, BM1: Bm1, CJ: VC, Aj: MAJ, res: restricciones.integerValue)
-        var Xb = XB(B1: Bm1, b: b)
-        var Tp = TP(B1: Bm1, P: P)
+            Xb = XB(B1: Bm1, b: b)
+            Tp = TP(B1: Bm1, P: P)
+        }else{
+        P = Zj_Cj(CB: CB, BM1: ME, CJ: VC, Aj: MAJ, res: restricciones.integerValue)
+            Xb = XB(B1: ME, b: b)
+            Tp = TP(B1: ME, P: P)
+        }
+        
+        
         Q = Minimo(XB: Xb, TP: Tp, P: P)
         
         if contador == 0 {

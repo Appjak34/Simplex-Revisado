@@ -176,7 +176,7 @@ func TP(B1:[[NSTextField]],P:Int) -> [NSTextField] {
         let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
         NewLabel2.doubleValue = 0
         for B in 0..<B1.count {
-            NewLabel2.doubleValue = (Matriz[B+1][P].doubleValue * B1[A][B].doubleValue) + NewLabel2.doubleValue
+            NewLabel2.doubleValue = (MAJ[B][P].doubleValue * B1[A][B].doubleValue) + NewLabel2.doubleValue
         }
         Tp.append(NewLabel2)
     }
@@ -201,7 +201,7 @@ func NuevaBm1(B1:[[NSTextField]],TP: [NSTextField], Q: Int, P:Int,vari:Int) -> [
     
     for A in 0..<B1.count {
         NuevaB1[A][Q-1] = AuxTP[A]
-        Matriz[A+1][Q+1] = AuxTP[A]
+        Matriz[A+1][Q] = AuxTP[A]
     }
     
 
