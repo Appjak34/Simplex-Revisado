@@ -133,7 +133,8 @@ class ViewController: NSViewController {
    
         CB = NuebaCb(Cb:CB, P:P,Q:Q,M: Matriz)
         ME = Bm1
-        print(Z(CB: CB, E: Bm1, b: b))  
+        print(Z(CB: CB, E: Bm1, b: b))
+        
         
         
     }

@@ -9,6 +9,9 @@
 import Foundation
 import Cocoa
 
+
+    
+    
 func ImprimeLBS(_ vari: Int,rest: Int, view: NSView){
     var res = vari
    
@@ -145,7 +148,11 @@ func Minimo(XB:[NSTextField], TP:[NSTextField],P:Int) -> Int {
     for A in 0..<TP.count {
         let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
         NewLabel2.doubleValue = 0
-        NewLabel2.doubleValue = XB[A].doubleValue/TP[A].doubleValue
+        if TP[A].doubleValue >= 0{
+            NewLabel2.doubleValue = XB[A].doubleValue/TP[A].doubleValue
+        }else{
+            NewLabel2.doubleValue = XB[A].doubleValue/0
+        }
         Aux.append(NewLabel2)
     }
     
