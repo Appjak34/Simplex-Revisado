@@ -27,6 +27,10 @@ class ViewController: NSViewController {
     @IBOutlet weak var restricciones: NSTextField!
     @IBOutlet weak var buttonOK: NSButton!
     @IBOutlet weak var siguiente: NSButton!
+    @IBOutlet weak var Ptext: NSTextField!
+    @IBOutlet weak var Qtext: NSTextField!
+    @IBOutlet weak var Ztext: NSTextField!
+    @IBOutlet weak var Optimo: NSTextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -110,6 +114,10 @@ class ViewController: NSViewController {
         var Bm1 = B1(M:Matriz,vari:variables.integerValue,res: restricciones.integerValue)
         var b = B(vari:variables.integerValue,res: restricciones.integerValue)
         
+
+        
+
+        
         if contador == 0 {
         P = Zj_Cj(CB: CB, BM1: Bm1, CJ: VC, Aj: MAJ, res: restricciones.integerValue)
             Xb = XB(B1: Bm1, b: b)
@@ -127,13 +135,24 @@ class ViewController: NSViewController {
             Bm1 = NuevaBm1(B1: MI, TP: Tp, Q: Q, P: P, vari:variables.integerValue)
             contador = 1
         }else{
+            if ChecarZ(CB: CB, E: Bm1, b: VC) == true {
+                siguiente.isHidden = true
+                Optimo.isHidden = false
+            }
             Bm1 = NuevaBm1(B1: MI, TP: Tp, Q: Q, P: P, vari:variables.integerValue)
+            otra(XB: Xb, m: Bm1,v: view,res: restricciones.integerValue )
             Bm1 = MEanterior(MAnterior: ME, MBm1: Bm1, vari: variables.integerValue, res: restricciones.integerValue)
         }
+        otra(XB: b, m: Bm1, v: view, res: restricciones.integerValue)
    
         CB = NuebaCb(Cb:CB, P:P,Q:Q,M: Matriz)
         ME = Bm1
+        
         print(Z(CB: CB, E: Bm1, b: b))
+        ImprimeMatriz(M: Bm1, view: view)
+        Ptext.intValue = Int32(P + 1)
+        Qtext.intValue = Int32(Q + variables.integerValue)
+        Ztext.doubleValue = Z(CB: CB, E: Bm1, b: b)
         
         
         

@@ -9,7 +9,44 @@
 import Foundation
 import Cocoa
 
+    func ImprimeMatriz(M:[[NSTextField]], view: NSView){
+        var Mat:[[NSTextField]] = M
+        
+    
+        var X = 100
+        var Y = 400
+        for A in 0..<M.count {
+            for B in 0..<M.count {
+                var NewLabel4 :NSTextField = NSTextField(frame:CGRect( x: X ,y: Y,width: 50,height: 20))
+                NewLabel4.doubleValue = Mat[A][B].doubleValue
+                view.addSubview(NewLabel4)
+                NewLabel4.alignment = NSTextAlignment.center
+                NewLabel4.drawsBackground = false;
+                NewLabel4.isBezeled = true
+                X =  X + 50
+            }
+            Y -= 20
+            X = 100
+        }
+}
+    
+    func ImprimeZjCj(v:[NSTextField], view: NSView, res: Int) {
+        var X = 150
+        var Y = 300
+        X += 50 * res
+            for B in 0..<v.count {
+                var NewLabel4 :NSTextField = NSTextField(frame:CGRect( x: X ,y: Y,width: 50,height: 20))
+                NewLabel4.doubleValue = v[B].doubleValue
+                view.addSubview(NewLabel4)
+                NewLabel4.alignment = NSTextAlignment.center
+                NewLabel4.drawsBackground = false;
+                NewLabel4.isBezeled = true
+                X =  X + 50
+            }
+            Y -= 20
+            X = 100
 
+    }
     
     
 func ImprimeLBS(_ vari: Int,rest: Int, view: NSView){
@@ -135,7 +172,9 @@ func XB(B1:[[NSTextField]],b:[NSTextField]) -> [NSTextField] {
         for B in 0..<B1.count {
             NewLabel2.doubleValue = (b[B].doubleValue * B1[A][B].doubleValue) + NewLabel2.doubleValue
         }
+        
         XB.append(NewLabel2)
+        
     }
     
     return XB
@@ -154,6 +193,7 @@ func Minimo(XB:[NSTextField], TP:[NSTextField],P:Int) -> Int {
             NewLabel2.doubleValue = XB[A].doubleValue/0
         }
         Aux.append(NewLabel2)
+        
     }
     
     let numbersLength = Aux.count
@@ -331,9 +371,9 @@ func Aj(M:[[NSTextField]],vari:Int,res: Int) -> [[NSTextField]] {
             for B in 0..<E.count {
                 NewLabel2.doubleValue = CB[B].doubleValue * E[B][A].doubleValue + NewLabel2.doubleValue
                 }
-            print( NewLabel2.doubleValue)
-
+            
             aux[A] = NewLabel2
+            
         }
         
         let NewLabel3 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
@@ -341,12 +381,76 @@ func Aj(M:[[NSTextField]],vari:Int,res: Int) -> [[NSTextField]] {
         
         for A in 0..<E.count {
             NewLabel3.doubleValue = aux[A].doubleValue * b[A].doubleValue + NewLabel3.doubleValue
+            
+
         }
         
         Z = NewLabel3.doubleValue
         
         return Z
     }
+    
+    func ChecarZ(CB:[NSTextField], E:[[NSTextField]], b:[NSTextField]) -> Bool  {
+        var Z = 0
+        var aux = [NSTextField](repeating: NewLabel, count:b.count )
+        var aux2 = [NSTextField]()
+        var final = false
+        for A in 0..<E.count {
+            let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+            NewLabel2.doubleValue = 0
+            for B in 0..<E.count {
+                NewLabel2.doubleValue = CB[B].doubleValue * E[B][A].doubleValue + NewLabel2.doubleValue
+            }
+            aux[A] = NewLabel2
+        }
+        
+        for A in 0..<b.count {
+            let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+            NewLabel2.doubleValue = 0
+            for B in 0..<E.count {
+                NewLabel2.doubleValue = aux[B].doubleValue * MAJ[B][A].doubleValue + NewLabel2.doubleValue
+            }
+            aux2.append(NewLabel2)
+        }
+        aux.removeAll()
+        
+        for A in 0..<b.count {
+            let NewLabel3 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+            NewLabel3.doubleValue = 0
+            NewLabel3.doubleValue = aux2[A].doubleValue - b[A].doubleValue
+            aux.append(NewLabel3)
+        }
+        for A in 0..<aux.count {
+            if aux[A].doubleValue >= 0 {
+                final = true
+                
+                return final
+            }
+            else{
+                
+                final = false
+            }
+            
+        }
+        
+        return final
+        
+    }
+    func otra(XB:[NSTextField], m:[[NSTextField]],v: NSView, res:Int)  {
+        var aux = [NSTextField]()
+        for A in 0..<m.count {
+            let NewLabel2 :NSTextField = NSTextField(frame:CGRect( x: 10 ,y: 10,width: 40,height: 30))
+            NewLabel2.doubleValue = 0
+            for B in 0..<m[0].count {
+                NewLabel2.doubleValue = XB[B].doubleValue * m[A][B].doubleValue + NewLabel2.doubleValue
+            }
+            print(NewLabel2.doubleValue)
+            aux.append(NewLabel2)
+            
+            
+        }
+        ImprimeZjCj(v:aux, view: v, res: res)
+}
   
 
 
